@@ -44,7 +44,7 @@ jobs:
         echo "iconrpcserver ${{ github.event.inputs.iconrpcserver }}!"
         echo "iconservice ${{ github.event.inputs.iconservice }}!"
         echo "rewardcalculator ${{ github.event.inputs.rewardcalculator }}!"
-        echo "tag : ${{ env.RELEASE_TAG }}
+        echo "tag : ${{ env.RELEASE_TAG }}"
     - name: checkout loopchain
       uses: actions/checkout@v2
       with:
