@@ -22,6 +22,10 @@ on:
         description: 'rewardcalculator tag'
         required: true
         default: '1.2.2'
+      release_tag:
+        description: 'release tag'
+        required: true
+        default: '2020.09'
 #   push:
 #     branches: [ master ]
 #   pull_request:
@@ -31,6 +35,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    env:
+      RELEASE_TAG: ${{ github.event.inputs.release_tag }}
     steps:
     - name: repos
       run: |
@@ -38,6 +44,7 @@ jobs:
         echo "iconrpcserver ${{ github.event.inputs.iconrpcserver }}!"
         echo "iconservice ${{ github.event.inputs.iconservice }}!"
         echo "rewardcalculator ${{ github.event.inputs.rewardcalculator }}!"
+        echo "tag : ${{ env.RELEASE_TAG }}
     - name: checkout loopchain
       uses: actions/checkout@v2
       with:
