@@ -6,13 +6,22 @@ name: Python application
 on:
   workflow_dispatch:
     inputs:
-      name:
-        description: 'Person to greet'
+      loopchain:
+        description: 'loopchain tag'
         required: true
-        default: 'Mona the Octocat'
-      home:
-        description: 'location'
-        required: false  
+        default: '2.6.0'
+      iconrpcserver:
+        description: 'iconrpcserver tag'
+        required: true
+        default: '1.5.1'
+      iconservice:
+        description: 'iconservice tag'
+        required: true
+        default: '1.7.7'
+      rewardcalculator:
+        description: 'rewardcalculator tag'
+        required: true
+        default: '1.2.2'
 #   push:
 #     branches: [ master ]
 #   pull_request:
@@ -23,11 +32,21 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-    - name: hello
+    - name: repos
       run: |
-        echo "Hello ${{ github.event.inputs.name }}!"
-        echo "- in ${{ github.event.inputs.home }}!"     
-    - uses: actions/checkout@v2
+        echo "loopchain ${{ github.event.inputs.loopchain }}!"
+        echo "iconrpcserver ${{ github.event.inputs.iconrpcserver }}!"
+        echo "iconservice ${{ github.event.inputs.iconservice }}!"
+        echo "rewardcalculator ${{ github.event.inputs.rewardcalculator }}!"
+    - name: checkout loopchain
+      uses: actions/checkout@v2
+      with:
+        repository: icon-project/loopchain
+        ref: ${{ github.event.inputs.loopchain }}
+        path: loopchain
+    - name: check loopchain
+      run: |
+        ls -al ./ ./loopchain
     - name: Set up Python 3.7
       uses: actions/setup-python@v2
       with:
