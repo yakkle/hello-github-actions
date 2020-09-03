@@ -4,17 +4,29 @@
 name: Python application
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Person to greet'
+        required: true
+        default: 'Mona the Octocat'
+      home:
+        description: 'location'
+        required: false  
+#   push:
+#     branches: [ master ]
+#   pull_request:
+#     branches: [ master ]
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
-
     steps:
+    - name: hello
+      run: |
+        echo "Hello ${{ github.event.inputs.name }}!"
+        echo "- in ${{ github.event.inputs.home }}!"     
     - uses: actions/checkout@v2
     - name: Set up Python 3.7
       uses: actions/setup-python@v2
@@ -23,9 +35,20 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
+        pip install virtualenv
+        virtualenv -p python venv
+        source venv/bin/activate
         pip list
-        pip install flake8 pytest
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Test with pytest
+        # pip install flake8 pytest
+        # if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: check
       run: |
-        pytest
+        which python
+        ls -al
+        pip list
+      env:
+        VIRTUAL_ENV: ./venv
+    - name: Test with pytest
+      if: ${{ false }}
+      run: |
+        pytest -v
