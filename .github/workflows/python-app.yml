@@ -45,6 +45,7 @@ jobs:
         echo "iconservice ${{ github.event.inputs.iconservice }}!"
         echo "rewardcalculator ${{ github.event.inputs.rewardcalculator }}!"
         echo "tag : ${{ env.RELEASE_TAG }}"
+        echo "LOG_PATH=https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" >> $GITHUB_ENV
     - name: checkout loopchain
       uses: actions/checkout@v2
       with:
@@ -72,6 +73,7 @@ jobs:
         which python
         ls -al
         pip list
+        echo "env.LOG_PATH: ${{ env.LOG_PATH }}"
       env:
         VIRTUAL_ENV: ./venv
     - name: Test with pytest
