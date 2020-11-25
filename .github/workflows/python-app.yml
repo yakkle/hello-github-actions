@@ -77,17 +77,19 @@ jobs:
       run: |
         import os, sys
         print(f"version: {sys.version}")
-        github_env = os.getenv("GITHUB_ENV")
-        print(f"github env: {github_env!r}")
-        # github_env = f"{github_env}\nDOCKER_TAG=2020.11.25"
-        # os.environ["GITHUB_ENV"] = github_env
+        github_env_file = os.getenv("GITHUB_ENV")
+        print(f"github env: {github_env_file!r}")
+
+        with open(github_env_file, "r+") as f:
+          print(f.read())
+          f.write("DOCKER_TAG=2020.11.25")
       shell: python
     - name: check
       run: |
         which python
         ls -al
         pip list
-        echo "GITHUB_ENV: ${{ env.GITHUB_ENV }}"
+        echo "DOCKER_TAG: ${{ env.DOCKER_TAG }}"
         echo "env.LOG_PATH: ${{ env.LOG_PATH }}"
       env:
         VIRTUAL_ENV: ./venv
