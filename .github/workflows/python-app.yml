@@ -46,6 +46,11 @@ jobs:
         echo "rewardcalculator ${{ github.event.inputs.rewardcalculator }}!"
         echo "tag : ${{ env.RELEASE_TAG }}"
         echo "LOG_PATH=https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" >> $GITHUB_ENV
+    - name: Set env
+      run: |
+        import sys
+        print("version: {}".format(sys.version))
+      shell: python
     - name: checkout loopchain
       uses: actions/checkout@v2
       with:
@@ -71,11 +76,11 @@ jobs:
     - name: Set env
       run: |
         import os, sys
-        print(sys.version)
+        print(f"version: {sys.version}")
         github_env = os.getenv("GITHUB_ENV")
-        print(github_env)
-        github_env = "{}\nDOCKER_TAG=2020.11.25".format(github_env)
-        os.environ["GITHUB_ENV"] = github_env
+        print(f"github env: {github_env!r}")
+        # github_env = f"{github_env}\nDOCKER_TAG=2020.11.25"
+        # os.environ["GITHUB_ENV"] = github_env
       shell: python
     - name: check
       run: |
