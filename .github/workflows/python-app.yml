@@ -88,7 +88,7 @@ jobs:
           print(f"({f.read()})")
       shell: python
     - name: Set env with python
-      run: python -c "print(${{ FOO=env.RELEASE_TAG }})" >> $GITHUB_ENV
+      run: python -c "print('FOO=$RELEASE_TAG')" >> $GITHUB_ENV
     - name: check
       run: |
         which python
