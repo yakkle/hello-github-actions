@@ -81,8 +81,10 @@ jobs:
         print(f"github env: {github_env_file!r}")
 
         with open(github_env_file, "r+") as f:
-          print(f.read())
+          print(f"({f.read()})")
           f.write("DOCKER_TAG=2020.11.25")
+          f.seek(0)
+          print(f"({f.read()})")
       shell: python
     - name: check
       run: |
