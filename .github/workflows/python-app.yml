@@ -87,10 +87,11 @@ jobs:
           f.seek(0)
           print(f"({f.read()})")
       shell: python
+    - name: Set env with python
+      run: python -c "print('FOO=bar')" >> $GITHUB_ENV
     - name: check
       run: |
         which python
-        python -c "print('FOO=bar')" >> $GITHUB_ENV
         ls -al
         pip list
         echo "FOO: ${{ env.FOO }}"
