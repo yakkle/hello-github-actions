@@ -90,8 +90,10 @@ jobs:
     - name: check
       run: |
         which python
+        python -c "print('FOO=bar')" >> $GITHUB_ENV
         ls -al
         pip list
+        echo "FOO: ${{ env.FOO }}
         echo "DOCKER_TAG: ${{ env.DOCKER_TAG }}"
         echo "env.LOG_PATH: ${{ env.LOG_PATH }}"
       env:
