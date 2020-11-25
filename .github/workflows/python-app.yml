@@ -45,6 +45,7 @@ jobs:
         echo "iconservice ${{ github.event.inputs.iconservice }}!"
         echo "rewardcalculator ${{ github.event.inputs.rewardcalculator }}!"
         echo "tag : ${{ env.RELEASE_TAG }}"
+        echo "github env file : ${{ GITHUB_ENV }}"
         echo "LOG_PATH=https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" >> $GITHUB_ENV
     - name: Set env
       run: |
