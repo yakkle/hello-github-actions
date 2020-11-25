@@ -46,14 +46,6 @@ jobs:
         echo "rewardcalculator ${{ github.event.inputs.rewardcalculator }}!"
         echo "tag : ${{ env.RELEASE_TAG }}"
         echo "LOG_PATH=https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" >> $GITHUB_ENV
-    - name: Set env
-      run: |
-        import os
-        github_env = os.getenv("GITHUB_ENV")
-        print(github_env)
-        github_env = f"{github_env}\nDOCKER_TAG=2020.11.25"
-        os.environ["GITHUB_ENV"] = github_env
-      shell: python
     - name: checkout loopchain
       uses: actions/checkout@v2
       with:
@@ -76,6 +68,15 @@ jobs:
         pip list
         # pip install flake8 pytest
         # if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Set env
+      run: |
+        import os, sys
+        print(sys.version)
+        github_env = os.getenv("GITHUB_ENV")
+        print(github_env)
+        github_env = "{}\nDOCKER_TAG=2020.11.25".format(github_env)
+        os.environ["GITHUB_ENV"] = github_env
+      shell: python
     - name: check
       run: |
         which python
