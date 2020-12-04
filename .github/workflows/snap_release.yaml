@@ -1,0 +1,45 @@
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'snap release tag'
+        required: true
+        default: '2020.11'
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      RELEASE_TAG: ${{ github.event.inputs.release_tag }}
+      DEBUG: false
+    steps:
+      - name: Checkout release
+        uses: actions/checkout@v2
+      - name: Workflow check
+        if : ${{ startsWith(env.DEBUG, 'true') }}
+        run: |
+          echo $PWD
+          ls -al
+      - name: Build snapcraft
+        id: snapcraft
+        uses: snapcore/action-build@v1
+      - name: Check build result
+        if: ${{ startsWith(env.DEBUG, 'true') }}
+        run: |
+          echo "github_tag: $RELEASE_TAG"
+          ls -al ./$BUILD_DIR
+          ls -al ./$ASSETS_DIR
+          echo "-------"
+          echo "${{ env.PACKAGE_INFO_BODY }}"
+      - name: Upload artifact
+        if: ${{ false }}      
+        uses: actions/upload-artifact@v2
+        with:
+          name: snap
+          path: ${{ steps.snapcraft.outputs.snap }}
+      - name: Publish to snap store
+        if: ${{ false }}
+        uses: snapcore/action-publish@v1
+        with:
+          store_login: ${{ secrets.STORE_LOGIN }}
+          snap: ${{ steps.snapcraft.outputs.snap }}
+          release: ${{ format('edge/{0}', env.RELEASE_TAG) }}
