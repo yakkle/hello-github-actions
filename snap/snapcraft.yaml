@@ -9,7 +9,6 @@ base: core18
 
 parts:
   install-dependency:
-    after: [ python3 ]
     plugin: python
     python-version: python3
     python-packages:
