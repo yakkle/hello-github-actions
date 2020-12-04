@@ -5,6 +5,9 @@ on:
         description: 'snap release tag'
         required: true
         default: '2020.11'
+  push:
+    branches: [ add-snapcraft ]
+    
 jobs:
   release:
     runs-on: ubuntu-latest
