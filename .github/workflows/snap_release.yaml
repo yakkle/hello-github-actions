@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RELEASE_TAG: ${{ github.event.inputs.release_tag }}
-      DEBUG: false
+      DEBUG: true
     steps:
       - name: Checkout release
         uses: actions/checkout@v2
