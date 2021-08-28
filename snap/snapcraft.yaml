@@ -31,7 +31,8 @@ parts:
       git checkout ${LATEST_TAG}
       pwd
       cd /root/snap
-      ls -al
+      tree
+      ls -al snapcraft
       echo "curl https://api.github.com/repos/icon-project/icon-release/releases/latest"
       curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/icon-project/icon-release/releases/latest
       VERSION=$(curl -H "Accept:application/vnd.github.v3+json" \
