@@ -52,6 +52,8 @@ jobs:
         import sys
         print("version: {}".format(sys.version))
       shell: python
+    - name: checkout release
+      uses: actions/checkout@v2
     - name: checkout loopchain
       uses: actions/checkout@v2
       with:
@@ -106,9 +108,9 @@ jobs:
     - name: build assets
       run: |
         cp LICENSE license.txt
-        tar czf 20210928.0_packages.tar.gz .github/ README.md
+        tar czf 20210928.0_packages.tar.gz .github README.md
         touch citizen.txt
-        tar czf citizen_pack_20210928.0.tar.gz .github/ citizen.txt
+        tar czf citizen_pack_20210928.0.tar.gz loopchain citizen.txt
     - name: upload release asset
       uses: softprops/action-gh-release@v1
       with:
