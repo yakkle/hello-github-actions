@@ -115,6 +115,7 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         name: Release 20210928.0
+        tag_name: ${{ github.event.inputs.release_tag }}
         body_path: README.md
         files: |
           20210928.0_packages.tar.gz
