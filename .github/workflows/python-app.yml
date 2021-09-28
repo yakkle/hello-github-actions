@@ -103,3 +103,20 @@ jobs:
       if: ${{ false }}
       run: |
         pytest -v
+    - name: build assets
+      run: |
+        cp LICENSE license.txt
+        tar czf 20210928.0_packages.tar.gz .github/ README.md
+        touch citizen.txt
+        tar czf citizen_pack_20210928.0.tar.gz .github/ citizen.txt
+    - name: upload release asset
+      uses: softprops/action-gh-release@v1
+      with:
+        name: Release 20210928.0
+        body_path: README.md
+        files: |
+          20210928.0_packages.tar.gz
+          citizen_pack_20210928.0.tar.gz
+          license.txt
+        prerelease: true
+          
