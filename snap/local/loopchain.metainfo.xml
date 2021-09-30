@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="console-application">
-  <id>org.iconrepublic</id>
+  <id>loopchain.metainfo</id>
   <name>loopchain</name>
   <summary>loopchain citizen</summary>
   <description>
