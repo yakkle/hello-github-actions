@@ -42,6 +42,7 @@ parts:
       snapcraftctl set-grade stable
     override-build: |
       echo "loopchain build"
+      snapcraftctl build
     stage-packages:
       - python-six
     stage:
