@@ -23,7 +23,7 @@ parts:
     python-version: python3
     source-type: git
     source: https://github.com/icon-project/loopchain.git
-    parse-info: [/root/project/snap/local/loopchain.metainfo.xml]
+    parse-info: [$SNAPCRAFT_PROJECT_DIR/snap/local/org.republic.loopchain.appdata.xml]
     override-pull: |
       snapcraftctl pull
       LATEST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
@@ -51,6 +51,7 @@ parts:
 apps:
   loopchain:
     command: bin/snapcraft-preload $SNAP/bin/loopchain
+    common-id: org.iconrepublic.loopchain
     plugs:
       - home
       - network
