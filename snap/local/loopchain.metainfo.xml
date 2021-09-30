@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="console-application">
+  <id>org.iconrepublic</id>
+  <name>loopchain</name>
+  <summary>loopchain citizen</summary>
+  <description>
+    loopchain-citizen is software that loopchain client excluded vote function.
+  </description>
+  <releases>
+    <release date="2021-09-30" version="20210930.2"/>
+  </releases>
+</component>
