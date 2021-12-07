@@ -4,7 +4,8 @@
 name: Python application
 
 on:
-  workflow_dispatch:
+  - push
+  - workflow_dispatch:
     inputs:
       loopchain:
         description: 'loopchain tag'
@@ -26,6 +27,10 @@ on:
         description: 'release tag'
         required: true
         default: '2020.09'
+      test_publish:
+        description: 'test publish'
+        required: false
+        default: 'false'
 #   push:
 #     branches: [ master ]
 #   pull_request:
@@ -106,6 +111,10 @@ jobs:
       if: ${{ false }}
       run: |
         pytest -v
+
+  release:
+    need: build
+    if: github.event.inputs.test_publish
     - name: build assets
       run: |
         cp LICENSE license.txt
