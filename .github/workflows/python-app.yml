@@ -40,6 +40,7 @@ jobs:
     steps:
     - name: repos
       run: |
+        echo "event name : ${{ github.event_name }}"
         echo "loopchain ${{ github.event.inputs.loopchain }}!"
         echo "iconrpcserver ${{ github.event.inputs.iconrpcserver }}!"
         echo "iconservice ${{ github.event.inputs.iconservice }}!"
