@@ -38,7 +38,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     env:
       RELEASE_TAG: ${{ github.event.inputs.release_tag }}
@@ -111,10 +110,10 @@ jobs:
       if: ${{ false }}
       run: |
         pytest -v
-
   release:
     need: build
     if: github.event.inputs.test_publish
+    steps:
     - name: build assets
       run: |
         cp LICENSE license.txt
