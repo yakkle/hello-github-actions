@@ -11,8 +11,8 @@ jobs:
         echo "event name : ${{ github.event_name }}"
         echo "event path : ${{ github.event_path }}"
     - name: checkout
-      - uses: actions/checkout@v1
+      uses: actions/checkout@v1
     - name: run action-a
-      - uses: ./action-a
-        with:
-          MY_NAME: "Mona"
+      uses: ./action-a
+      with:
+        MY_NAME: "Mona"
