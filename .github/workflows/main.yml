@@ -6,7 +6,13 @@ jobs:
     name: Hello world action
     runs-on: ubuntu-latest
     steps:
+    - name: show workflow info
+      run: |
+        echo "event name : ${{ github.event_name }}"
+        echo "event path : ${{ github.event_path }}"
+    - name: checkout
       - uses: actions/checkout@v1
+    - name: run action-a
       - uses: ./action-a
         with:
           MY_NAME: "Mona"
