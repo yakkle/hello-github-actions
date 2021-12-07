@@ -112,6 +112,7 @@ jobs:
         pytest -v
   release:
     need: build
+    runs-on: ubuntu-latest
     if: github.event.inputs.test_publish
     steps:
     - name: build assets
