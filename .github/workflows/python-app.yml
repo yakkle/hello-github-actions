@@ -111,7 +111,7 @@ jobs:
       run: |
         pytest -v
   release:
-    need: build
+    needs: build
     runs-on: ubuntu-latest
     if: github.event.inputs.test_publish
     steps:
