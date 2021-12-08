@@ -84,6 +84,7 @@ jobs:
     - name: Install dependencies
       if: steps.pip_cache.outputs.cache-hit != 'true'
       run: |
+        echo ${{ steps.pip_cache.outputs.cache-hit }}
         python -m pip install --upgrade pip
         # pip install virtualenv
         # virtualenv -p python venv
