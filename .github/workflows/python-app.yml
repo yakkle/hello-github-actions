@@ -73,7 +73,9 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.7
+        cache: pip
     - name: cache pip dependencies
+      if: false
       id: pip_cache
       uses: actions/cache@v2
       with:
@@ -82,9 +84,8 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-pip-
     - name: Install dependencies
-      if: steps.pip_cache.outputs.cache-hit != 'true'
       run: |
-        echo ${{ steps.pip_cache.outputs.cache-hit }}
+        # echo ${{ steps.pip_cache.outputs.cache-hit }}
         python -m pip install --upgrade pip
         # pip install virtualenv
         # virtualenv -p python venv
@@ -140,7 +141,9 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.7
+        cache: pip
     - name: cache pip dependencies
+      if: false
       id: pip_cache
       uses: actions/cache@v2
       with:
