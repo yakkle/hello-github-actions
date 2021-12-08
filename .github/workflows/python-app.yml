@@ -73,15 +73,24 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.7
+    - name: cache pip dependencies
+      id: pip_cache
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
     - name: Install dependencies
+      if: steps.pip_cache.outputs.cache-hit != 'true'
       run: |
         python -m pip install --upgrade pip
         pip install virtualenv
         virtualenv -p python venv
         source venv/bin/activate
-        pip list
         # pip install flake8 pytest
-        # if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        pip list
     - name: Set env
       run: |
         import os, sys
@@ -105,23 +114,47 @@ jobs:
         echo "FOO: ${{ env.FOO }}"
         echo "DOCKER_TAG: ${{ env.DOCKER_TAG }}"
         echo "env.LOG_PATH: ${{ env.LOG_PATH }}"
+        ls -al ./
       env:
         VIRTUAL_ENV: ./venv
     - name: Test with pytest
       if: ${{ false }}
       run: |
         pytest -v
+
   release:
     needs: build
+    runs-on: ubuntu-latest
     if: github.event.inputs.test_publish == 'true'
     steps:
+    - name: checkout release
+      uses: actions/checkout@v2
+    - name: checkout loopchain
+      uses: actions/checkout@v2
+      with:
+        repository: icon-project/loopchain
+        ref: ${{ github.event.inputs.loopchain }}
+        path: loopchain
+    - name: cache pip dependencies
+      id: pip_cache
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    - name: check cache
+      run: |
+        pip list
     - name: build assets
       run: |
         cp LICENSE license.txt
         tar czf 20210928.0_packages.tar.gz .github README.md
         touch citizen.txt
         tar czf citizen_pack_20210928.0.tar.gz loopchain citizen.txt
+        ls -al
     - name: upload release asset
+      if: false
       uses: softprops/action-gh-release@v1
       with:
         name: Release 20210928.0
@@ -132,4 +165,3 @@ jobs:
           citizen_pack_20210928.0.tar.gz
           license.txt
         prerelease: true
-          
