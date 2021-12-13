@@ -74,18 +74,8 @@ jobs:
       with:
         python-version: 3.7
         cache: pip
-    - name: cache pip dependencies
-      if: false
-      id: pip_cache
-      uses: actions/cache@v2
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
     - name: Install dependencies
       run: |
-        # echo ${{ steps.pip_cache.outputs.cache-hit }}
         python -m pip install --upgrade pip
         # pip install virtualenv
         # virtualenv -p python venv
@@ -117,6 +107,7 @@ jobs:
         echo "DOCKER_TAG: ${{ env.DOCKER_TAG }}"
         echo "env.LOG_PATH: ${{ env.LOG_PATH }}"
         ls -al ./
+        echo "::notice:: pythonLocation : ${{ env.pythonLocation }}"
       env:
         VIRTUAL_ENV: ./venv
     - name: Test with pytest
@@ -142,15 +133,6 @@ jobs:
       with:
         python-version: 3.7
         cache: pip
-    - name: cache pip dependencies
-      if: false
-      id: pip_cache
-      uses: actions/cache@v2
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
     - name: check cache
       run: |
         pip list
