@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run for main
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          echo "::notice::main"
+      - name: Run for develop
+        if: ${{ github.ref == 'refs/heads/develop' }}
+        run: |
+          echo "::notice::develop"
