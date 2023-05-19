@@ -1,0 +1,29 @@
+name: CI-develop
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./
+    steps:
+      - uses: actions/checkout@v3
+      - name: print context
+        run: |
+          echo "github.event_name = ${{ github.event_name }}"
+          echo "github.ref = ${{ github.ref }}"
+          echo "github.base_ref = ${{ github.base_ref }}"
+          echo "github.head_ref = ${{ github.head_ref }}"
+          echo "github.ref_name = ${{ github.ref_name }}"
+      - name: Run for develop
+        run: |
+          echo "::notice::develop"
