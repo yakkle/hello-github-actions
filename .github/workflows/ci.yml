@@ -4,8 +4,9 @@ on:
   push:
     branches:
       - main
-      - develop
   pull_request:
+    branches:
+      - main
 
 
 jobs:
@@ -18,15 +19,11 @@ jobs:
       - uses: actions/checkout@v3
       - name: print context
         run: |
+          echo "github.event_name = ${{ github.event_name }}"
           echo "github.ref = ${{ github.ref }}"
           echo "github.base_ref = ${{ github.base_ref }}"
           echo "github.head_ref = ${{ github.head_ref }}"
           echo "github.ref_name = ${{ github.ref_name }}"
       - name: Run for main
-        if: ${{ github.ref == 'refs/heads/main' || github.base_ref == 'main' }}
         run: |
           echo "::notice::main"
-      - name: Run for develop
-        if: ${{ github.ref == 'refs/heads/develop' || github.base_ref == 'develop' }}
-        run: |
-          echo "::notice::develop"
