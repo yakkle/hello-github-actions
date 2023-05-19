@@ -23,10 +23,10 @@ jobs:
           echo "github.head_ref = ${{ github.head_ref }}"
           echo "github.ref_name = ${{ github.ref_name }}"
       - name: Run for main
-        if: ${{ github.ref == 'refs/heads/main' }}
+        if: ${{ github.base_ref == 'main' }}
         run: |
           echo "::notice::main"
       - name: Run for develop
-        if: ${{ github.ref == 'refs/heads/develop' }}
+        if: ${{ github.base_ref == 'develop' }}
         run: |
           echo "::notice::develop"
