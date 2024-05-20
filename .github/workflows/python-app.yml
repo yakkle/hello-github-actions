@@ -4,6 +4,7 @@
 name: Python application
 
 on:
+  push:
   workflow_dispatch:
     inputs:
       loopchain:
@@ -26,6 +27,10 @@ on:
         description: 'release tag'
         required: true
         default: '2020.09'
+      test_publish:
+        description: 'test publish'
+        required: false
+        default: 'false'
 #   push:
 #     branches: [ master ]
 #   pull_request:
@@ -33,17 +38,18 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     env:
       RELEASE_TAG: ${{ github.event.inputs.release_tag }}
     steps:
     - name: repos
       run: |
-        echo "loopchain ${{ github.event.inputs.loopchain }}!"
-        echo "iconrpcserver ${{ github.event.inputs.iconrpcserver }}!"
-        echo "iconservice ${{ github.event.inputs.iconservice }}!"
-        echo "rewardcalculator ${{ github.event.inputs.rewardcalculator }}!"
+        echo "event name : ${{ github.event_name }}"
+        echo "test_publish : ${{ github.event.inputs.test_publish == 'true' }}"
+        echo "loopchain : ${{ github.event.inputs.loopchain }}!"
+        echo "iconrpcserver : ${{ github.event.inputs.iconrpcserver }}!"
+        echo "iconservice : ${{ github.event.inputs.iconservice }}!"
+        echo "rewardcalculator : ${{ github.event.inputs.rewardcalculator }}!"
         echo "tag : ${{ env.RELEASE_TAG }}"
         echo "github env file : $GITHUB_ENV"
         echo "LOG_PATH=https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" >> $GITHUB_ENV
@@ -52,6 +58,8 @@ jobs:
         import sys
         print("version: {}".format(sys.version))
       shell: python
+    - name: checkout release
+      uses: actions/checkout@v2
     - name: checkout loopchain
       uses: actions/checkout@v2
       with:
@@ -65,15 +73,16 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.7
+        cache: pip
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install virtualenv
-        virtualenv -p python venv
-        source venv/bin/activate
-        pip list
+        # pip install virtualenv
+        # virtualenv -p python venv
+        # source venv/bin/activate
         # pip install flake8 pytest
-        # if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        pip list
     - name: Set env
       run: |
         import os, sys
@@ -83,12 +92,12 @@ jobs:
 
         with open(github_env_file, "r+") as f:
           print(f"({f.read()})")
-          f.write("DOCKER_TAG=2020.11.25")
+          f.write("DOCKER_TAG=2020.11.25-160151")
           f.seek(0)
           print(f"({f.read()})")
       shell: python
     - name: Set env with python
-      run: python -c "print('FOO=bar')" >> $GITHUB_ENV
+      run: python -c "print('FOO=$RELEASE_TAG')" >> $GITHUB_ENV
     - name: check
       run: |
         which python
@@ -97,9 +106,54 @@ jobs:
         echo "FOO: ${{ env.FOO }}"
         echo "DOCKER_TAG: ${{ env.DOCKER_TAG }}"
         echo "env.LOG_PATH: ${{ env.LOG_PATH }}"
+        ls -al ./
+        echo "::notice:: pythonLocation : ${{ env.pythonLocation }}"
       env:
         VIRTUAL_ENV: ./venv
     - name: Test with pytest
       if: ${{ false }}
       run: |
         pytest -v
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event.inputs.test_publish == 'true'
+    steps:
+    - name: checkout release
+      uses: actions/checkout@v2
+    - name: checkout loopchain
+      uses: actions/checkout@v2
+      with:
+        repository: icon-project/loopchain
+        ref: ${{ github.event.inputs.loopchain }}
+        path: loopchain
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
+        cache: pip
+    - name: check cache
+      run: |
+        pip list
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        pip list
+    - name: build assets
+      run: |
+        cp LICENSE license.txt
+        tar czf 20210928.0_packages.tar.gz .github README.md
+        touch citizen.txt
+        tar czf citizen_pack_20210928.0.tar.gz loopchain citizen.txt
+        ls -al
+    - name: upload release asset
+      if: false
+      uses: softprops/action-gh-release@v1
+      with:
+        name: Release 20210928.0
+        tag_name: ${{ github.event.inputs.release_tag }}
+        body_path: README.md
+        files: |
+          20210928.0_packages.tar.gz
+          citizen_pack_20210928.0.tar.gz
+          license.txt
+        prerelease: true
