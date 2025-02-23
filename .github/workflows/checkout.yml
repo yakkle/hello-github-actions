@@ -1,0 +1,30 @@
+name: checkout test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+
+jobs:
+  checkout:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Checkout pages
+        uses: actions/checkout@v4
+        with:
+          ref: pages
+          path: site
+      - name: Run for main
+        run: |
+          echo "::notice::$(ls -al)"
