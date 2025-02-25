@@ -11,3 +11,4 @@ updates:
       interval: daily
       time: "01:01"
       timezone: "Asia/Seoul"
+    versioning-strategy: increase
