@@ -8,5 +8,6 @@ updates:
   - package-ecosystem: pip
     directory: /
     schedule:
-      time: "00:50"
+      interval: daily
+      time: "00:56"
       timezone: "Asia/Seoul"
