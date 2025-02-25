@@ -9,6 +9,6 @@ updates:
     directory: /
     schedule:
       interval: daily
-      time: "01:01"
+      time: "01:20"
       timezone: "Asia/Seoul"
     versioning-strategy: increase
