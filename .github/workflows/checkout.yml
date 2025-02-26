@@ -27,4 +27,5 @@ jobs:
           path: site
       - name: Run for main
         run: |
-          echo "::notice::$(ls -al)"
+          ls -al . ./site
+          echo "::notice::"
