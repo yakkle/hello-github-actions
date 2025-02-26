@@ -83,12 +83,12 @@ jobs:
 
         with open(github_env_file, "r+") as f:
           print(f"({f.read()})")
-          f.write("DOCKER_TAG=2020.11.25")
+          f.write("DOCKER_TAG=2020.11.25-160151")
           f.seek(0)
           print(f"({f.read()})")
       shell: python
     - name: Set env with python
-      run: python -c "print('FOO=bar')" >> $GITHUB_ENV
+      run: python -c "print('FOO=$RELEASE_TAG')" >> $GITHUB_ENV
     - name: check
       run: |
         which python
