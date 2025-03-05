@@ -27,4 +27,10 @@ jobs:
           path: site
       - name: Run for main
         run: |
-          echo "::notice::$(ls -al)"
+          ls -al . ./site
+          git remote -vv
+          git branch -vv
+          cd site
+          git remote -vv
+          git branch -vv
+          echo "::notice::"
