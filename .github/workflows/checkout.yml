@@ -28,4 +28,7 @@ jobs:
       - name: Run for main
         run: |
           ls -al . ./site
+          git remote -vv
+          cd site
+          git remote -vv
           echo "::notice::"
