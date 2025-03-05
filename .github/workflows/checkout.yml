@@ -29,6 +29,8 @@ jobs:
         run: |
           ls -al . ./site
           git remote -vv
+          git branch -vv
           cd site
           git remote -vv
+          git branch -vv
           echo "::notice::"
