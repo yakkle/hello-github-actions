@@ -19,7 +19,10 @@ jobs:
       - uses: actions/checkout@v3
       - name: print context
         run: |
-          echo "CI = ${{ github.CI }}"
+          if [ "$CI" = "true" ]; then
+            echo "This is a CI environment."
+          else
+            echo "This is not a CI environment."
           echo "github.event_name = ${{ github.event_name }}"
           echo "github.ref = ${{ github.ref }}"
           echo "github.base_ref = ${{ github.base_ref }}"
