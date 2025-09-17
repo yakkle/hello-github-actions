@@ -23,6 +23,7 @@ jobs:
             echo "This is a CI environment."
           else
             echo "This is not a CI environment."
+          fi
           echo "github.event_name = ${{ github.event_name }}"
           echo "github.ref = ${{ github.ref }}"
           echo "github.base_ref = ${{ github.base_ref }}"
