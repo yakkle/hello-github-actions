@@ -19,7 +19,7 @@ on:
           - ecr
 
 env:
-  REGISTRY: ${{ (github.event_name == 'workflow_dispath' && inputs.cr == 'ecr') && 'damoang' || 'ghcr.io' }}
+  REGISTRY: ghcr.io
 
 jobs:
   backend:
@@ -38,6 +38,10 @@ jobs:
           fi
           echo "inputs.cr = ${{ inputs.cr }}"
           echo "env.registry = ${{ env.REGISTRY }}"
+          if [ "${{ github.event_name }}" == "workflow_dispath" ] && [ ${{ "inputs.cr" }} == "ecr" ] then
+            echo "REGISTRY=ecr" >> $GIHUB_ENV
+          fi
+
           echo "github.event_name = ${{ github.event_name }}"
           echo "github.ref = ${{ github.ref }}"
           echo "github.base_ref = ${{ github.base_ref }}"
@@ -45,4 +49,13 @@ jobs:
           echo "github.ref_name = ${{ github.ref_name }}"
       - name: Run for main
         run: |
+          echo "env.registry = ${{ env.REGISTRY }}"
           echo "::notice::main"
+
+  envs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print env
+        run: |
+          echo "env.registry = ${{ env.REGISTRY }}"
+      
