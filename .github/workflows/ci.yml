@@ -20,6 +20,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
+  TERNARY_REGISTRY: ${{ (github.event_name == 'workflow_dispatch' && inputs.container_registry == 'ecr') && 'damoang' || 'ghcr.io' }}
 
 jobs:
   backend:
@@ -38,6 +39,7 @@ jobs:
           fi
           echo "inputs.cr = ${{ inputs.cr }}"
           echo "env.registry = ${{ env.REGISTRY }}"
+          echo "env.ternary_registry = ${{ env.TERNARY_REGISTRY }}"
           if [ "${{ github.event_name }}" == "workflow_dispatch" ] && [ "${{ inputs.cr }}" == "ecr" ]; then
             echo "change registry to ${{ inputs.cr }}"
             echo "REGISTRY=${{ inputs.cr }}" >> $GITHUB_ENV
@@ -62,4 +64,5 @@ jobs:
         run: |
           echo "env.registry = ${{ env.REGISTRY }}"
           echo "REGISTRY = $REGISTRY"
+          echo "env.ternary_registry = ${{ env.TERNARY_REGISTRY }}"
       
