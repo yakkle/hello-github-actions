@@ -20,7 +20,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  TERNARY_REGISTRY: ${{ inputs.container_registry == 'ecr' && 'damoang' || 'ghcr.io' }}
+  TERNARY_REGISTRY: ${{ inputs.cr == 'ecr' && 'damoang' || 'ghcr.io' }}
 
 jobs:
   backend:
