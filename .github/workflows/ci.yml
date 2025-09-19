@@ -7,7 +7,19 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      cr:
+        description: 'container registry'
+        required: true
+        default: 'ghcr'
+        type: choice
+        options:
+          - ghcr
+          - ecr
 
+env:
+  REGISTRY: ${{ (github.event_name == 'workflow_dispath' && inputs.cr == 'ecr') && 'damoang' || 'ghcr.io' }}
 
 jobs:
   backend:
@@ -24,6 +36,7 @@ jobs:
           else
             echo "This is not a CI environment."
           fi
+          echo "env.registry = ${{ env.REGISTRY }}"
           echo "github.event_name = ${{ github.event_name }}"
           echo "github.ref = ${{ github.ref }}"
           echo "github.base_ref = ${{ github.base_ref }}"
