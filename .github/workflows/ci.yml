@@ -39,7 +39,8 @@ jobs:
           echo "inputs.cr = ${{ inputs.cr }}"
           echo "env.registry = ${{ env.REGISTRY }}"
           if [ "${{ github.event_name }}" == "workflow_dispath" ] && [ "${{ inputs.cr }}" == "ecr" ]; then
-            echo "REGISTRY=ecr" >> $GIHUB_ENV
+            echo "change registry to ${{ inputs.cr }}"
+            echo "REGISTRY=${{ inputs.cr }}" >> $GIHUB_ENV
           fi
 
           echo "github.event_name = ${{ github.event_name }}"
@@ -50,6 +51,7 @@ jobs:
       - name: Run for main
         run: |
           echo "env.registry = ${{ env.REGISTRY }}"
+          echo "REGISTRY = $REGISTRY"
           echo "::notice::main"
 
   envs:
@@ -58,4 +60,5 @@ jobs:
       - name: print env
         run: |
           echo "env.registry = ${{ env.REGISTRY }}"
+          echo "REGISTRY = $REGISTRY"
       
