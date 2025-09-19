@@ -40,7 +40,7 @@ jobs:
           echo "env.registry = ${{ env.REGISTRY }}"
           if [ "${{ github.event_name }}" == "workflow_dispatch" ] && [ "${{ inputs.cr }}" == "ecr" ]; then
             echo "change registry to ${{ inputs.cr }}"
-            echo "REGISTRY=${{ inputs.cr }}" >> $GIHUB_ENV
+            echo "REGISTRY=${{ inputs.cr }}" >> $GITHUB_ENV
           fi
 
           echo "github.event_name = ${{ github.event_name }}"
