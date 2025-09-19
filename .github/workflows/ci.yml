@@ -38,7 +38,7 @@ jobs:
           fi
           echo "inputs.cr = ${{ inputs.cr }}"
           echo "env.registry = ${{ env.REGISTRY }}"
-          if [ "${{ github.event_name }}" == "workflow_dispath" ] && [ "${{ inputs.cr }}" == "ecr" ] then
+          if [ "${{ github.event_name }}" == "workflow_dispath" ] && [ "${{ inputs.cr }}" == "ecr" ]; then
             echo "REGISTRY=ecr" >> $GIHUB_ENV
           fi
 
