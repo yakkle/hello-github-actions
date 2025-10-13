@@ -10,7 +10,6 @@ on:
 
 env:
   REGISTRY_TYPE: ''
-  IMAGE_REF: ${{ needs.envs.outputs.image_ref }}
   GHCR_IMAGE_NAME: 'ghcr.io/damoang/damoang-guide:latest'
   ECR_REPOSITORY: 'damoang'
   AWS_REGION: 'ap-northeast-2'
@@ -29,6 +28,7 @@ jobs:
 
       - name: Deploy
         env:
+          IMAGE_REF: ${{ needs.envs.outputs.image_ref }}
           ECR_REPOSITORY: 'damoang'
         run: |
           echo "deploy"
