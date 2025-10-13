@@ -17,7 +17,6 @@ env:
 jobs:
   deploy:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    needs: envs
     runs-on: ubuntu-latest
 
     steps:
@@ -33,5 +32,6 @@ jobs:
           ECR_REPOSITORY: 'damoang'
         run: |
           echo "deploy"
+          echo "artifacts_url = ${{ github.event.workflow_run.artifacts_url }}"
           echo "env.image_ref = ${{ env.IMAGE_REF }}"
           uv run scripts/deploy.py
