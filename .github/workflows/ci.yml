@@ -59,22 +59,22 @@ jobs:
   envs:
     runs-on: ubuntu-latest
     needs: backend
+    outputs:
+      image_ref: ${{ steps.image.outputs.image_ref }}
     steps:
+      - name: Docker image
+        id: image
+        run: |
+          if [ "${{ env.TERNARY_REGISTRY }}" == "ecr" ]; then
+            IMAGE_REF="123456789012.dkr.ecr.ap-northeast-2.amazonaws.com/damoang:latest"
+          else
+            IMAGE_REF="ghcr.io/damoang/damoang-guide:latest"
+          fi
+          echo "image_ref = $IMAGE_REF"
+          echo "image_ref=$IMAGE_REF" >> $GITHUB_OUTPUT
+
       - name: print env
         run: |
           echo "env.registry = ${{ env.REGISTRY }}"
           echo "REGISTRY = $REGISTRY"
           echo "env.ternary_registry = ${{ env.TERNARY_REGISTRY }}"
-      
-      - name: Checkout
-        uses: actions/checkout@v5
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v6
-
-      - name: Deploy
-        env:
-          ECR_REPOSITORY: 'damoang'
-        run: |
-          echo "deploy"
-          uv run scripts/deploy.py

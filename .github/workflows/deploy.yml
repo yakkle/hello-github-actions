@@ -1,0 +1,36 @@
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    branches: [main]
+    types:
+      - completed
+  workflow_dispatch:
+
+env:
+  REGISTRY_TYPE: ''
+  IMAGE_REF: ${{ needs.envs.outputs.image_ref }}
+  GHCR_IMAGE_NAME: 'ghcr.io/damoang/damoang-guide:latest'
+  ECR_REPOSITORY: 'damoang'
+  AWS_REGION: 'ap-northeast-2'
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Deploy
+        env:
+          ECR_REPOSITORY: 'damoang'
+        run: |
+          echo "deploy"
+          echo "env.image_ref = ${{ env.IMAGE_REF }}"
+          uv run scripts/deploy.py
