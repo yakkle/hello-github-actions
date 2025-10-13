@@ -66,7 +66,10 @@ jobs:
           echo "REGISTRY = $REGISTRY"
           echo "env.ternary_registry = ${{ env.TERNARY_REGISTRY }}"
       
-      - name: 🐍 Install uv
+      - name: Checkout
+      - uses: actions/checkout@v5
+
+      - name: Install uv
         uses: astral-sh/setup-uv@v6
 
       - name: Deploy
