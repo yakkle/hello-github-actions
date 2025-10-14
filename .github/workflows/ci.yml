@@ -59,8 +59,8 @@ jobs:
   envs:
     runs-on: ubuntu-latest
     needs: backend
-    outputs:
-      image_ref: ${{ steps.image.outputs.image_ref }}
+    permissions:
+      contents: write
     steps:
       - name: Docker image
         id: image
