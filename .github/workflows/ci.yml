@@ -71,7 +71,14 @@ jobs:
             IMAGE_REF="ghcr.io/damoang/damoang-guide:latest"
           fi
           echo "image_ref = $IMAGE_REF"
-          echo "image_ref=$IMAGE_REF" >> $GITHUB_OUTPUT
+          echo "image_ref=$IMAGE_REF" >> $GITHUB_ENV
+
+      - name: Repository Dispatch
+        if: success()
+        uses: peter-evans/repository-dispatch@v4
+        with:
+          event-type: my-event
+          client-payload: '{"image_ref": "${{ env.IMAGE_REF }}"}'
 
       - name: print env
         run: |

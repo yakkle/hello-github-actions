@@ -1,11 +1,8 @@
 name: Deploy
 
 on:
-  workflow_run:
-    workflows: ["CI"]
-    branches: [main]
-    types:
-      - completed
+  repository_dispatch:
+    types: [my-event]
   workflow_dispatch:
 
 env:
@@ -28,7 +25,7 @@ jobs:
 
       - name: Deploy
         env:
-          IMAGE_REF: ${{ needs.envs.outputs.image_ref }}
+          IMAGE_REF: ${{ github.event.client_payload.image_ref }}
           ECR_REPOSITORY: 'damoang'
         run: |
           echo "deploy"
