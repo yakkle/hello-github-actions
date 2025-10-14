@@ -59,8 +59,8 @@ jobs:
   envs:
     runs-on: ubuntu-latest
     needs: backend
-    permissions:
-      contents: write
+    # permissions:
+    #   contents: write
     steps:
       - name: Docker image
         id: image
