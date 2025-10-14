@@ -2,11 +2,10 @@ name: Deploy
 
 on:
   repository_dispatch:
-    types: [my-event]
+    types: [deploy-event]
   workflow_dispatch:
 
 env:
-  REGISTRY_TYPE: ''
   GHCR_IMAGE_NAME: 'ghcr.io/damoang/damoang-guide:latest'
   ECR_REPOSITORY: 'damoang'
   AWS_REGION: 'ap-northeast-2'
@@ -25,6 +24,7 @@ jobs:
       - name: Deploy
         env:
           IMAGE_REF: ${{ github.event.client_payload.image_ref }}
+          REGISTRY: ${{ github.event.client_payload.registry }}
           ECR_REPOSITORY: 'damoang'
         run: |
           echo "deploy"

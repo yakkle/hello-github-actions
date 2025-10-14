@@ -10,8 +10,10 @@ scripts_template = """
 #!/bin/bash
 set -e
 
-echo "=== start deploy scrpits ==="
+echo "=== start deploy scripts ==="
 
+echo aws_region=${AWS_REGION}
+echo image_ref=${IMAGE_REF}
 echo registry=${REGISTRY}
 echo repository=${ECR_REPOSITORY}
 

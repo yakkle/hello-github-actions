@@ -59,8 +59,6 @@ jobs:
   envs:
     runs-on: ubuntu-latest
     needs: backend
-    # permissions:
-    #   contents: write
     steps:
       - name: Docker image
         id: image
@@ -77,8 +75,8 @@ jobs:
         if: success()
         uses: peter-evans/repository-dispatch@v4
         with:
-          event-type: my-event
-          client-payload: '{"image_ref": "${{ env.IMAGE_REF }}"}'
+          event-type: deploy-event
+          client-payload: '{"image_ref": "${{ env.IMAGE_REF }}", "registry": "${{ env.REGISTRY }}"}'
 
       - name: print env
         run: |
