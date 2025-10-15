@@ -31,3 +31,6 @@ jobs:
           echo "artifacts_url = ${{ github.event.workflow_run.artifacts_url }}"
           echo "env.image_ref = ${{ env.IMAGE_REF }}"
           uv run scripts/deploy.py
+
+      - name: Check AWS CLI version
+        run: aws --version
