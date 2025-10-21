@@ -6,6 +6,8 @@
 
 import os
 
+STEP_SUMMARY = os.getenv("GITHUB_STEP_SUMMARY")
+
 scripts_template = """
 #!/bin/bash
 set -e
@@ -21,7 +23,10 @@ echo repository=${ECR_REPOSITORY}
 
 def main():
     scripts = os.path.expandvars(scripts_template)
-    print(f"{scripts=}")
+    with open(STEP_SUMMARY, "a") as summary_file:
+        print(f"Start Deployment\n", file=summary_file)
+        print(f"{scripts=}", file=summary_file)
+        print(f"Finish Deployment\n", file=summary_file)
 
 
 if __name__ == "__main__":
