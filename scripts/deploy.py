@@ -24,9 +24,9 @@ echo repository=${ECR_REPOSITORY}
 def main():
     scripts = os.path.expandvars(scripts_template)
     with open(STEP_SUMMARY, "a") as summary_file:
-        print(f"Start Deployment\n", file=summary_file)
+        print(f"```\nStart Deployment\n", file=summary_file)
         print(f"{scripts=}", file=summary_file)
-        print(f"Finish Deployment\n", file=summary_file)
+        print(f"Finish Deployment\n```\n", file=summary_file)
 
 
 if __name__ == "__main__":
