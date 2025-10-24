@@ -27,6 +27,8 @@ def main():
         print(f"```\nStart Deployment\n", file=summary_file)
         print(f"{scripts=}", file=summary_file)
         print(f"Finish Deployment\n```\n", file=summary_file)
+        print(f"> [!NOTE]\n", file=summary_file)
+        print(f"> This is note\n", file=summary_file)
 
 
 if __name__ == "__main__":
